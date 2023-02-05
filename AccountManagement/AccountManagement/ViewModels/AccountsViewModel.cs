@@ -180,6 +180,20 @@ namespace AccountManagement.ViewModels
 
         #endregion MoneyTransfer
 
+        #region Logout
+
+        public ICommand LogoutCommand => new Command(async () => await LogoutAsync());
+        private async Task LogoutAsync()
+        {
+            var loginView = new Views.LoginView()
+            {
+                BindingContext = new LoginViewModel()
+            };
+            NavigationService.PushAsRoot(loginView);
+        }
+
+        #endregion Logout
+
     }
 }
 
