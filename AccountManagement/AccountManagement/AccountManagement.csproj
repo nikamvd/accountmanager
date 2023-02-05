@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Views\" />
+    <None Remove="ViewModels\" />
+    <None Remove="ViewModels\Base\" />
+    <None Remove="Validations\" />
+    <None Remove="Services\" />
+    <None Remove="Services\Dialog\" />
+    <None Remove="Services\Navigation\" />
+    <None Remove="Models\" />
+    <None Remove="Resources\" />
+    <None Remove="Services\Loan\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="ViewModels\Base\" />
+    <Folder Include="Validations\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Dialog\" />
+    <Folder Include="Services\Navigation\" />
+    <Folder Include="Models\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Services\Loan\" />
+  </ItemGroup>
+</Project>

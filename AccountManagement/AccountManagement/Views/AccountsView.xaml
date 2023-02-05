@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="#F5F5F5"
+    x:Class="AccountManagement.Views.AccountsView">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Style="{StaticResource StackLayout_Page_Content}" Padding="15,15,15,15">
+            <Frame Style="{StaticResource Frame_AccountDetails}">
+                <StackLayout Style="{StaticResource StackLayout_Frame_Section}" VerticalOptions="FillAndExpand" Orientation="Horizontal">
+                    <Label Text="{Binding User.UserName}" />
+                    <Label Text="Credit Rating: " />
+                    <Label Text="{Binding User.CreditRating}" />
+                </StackLayout>
+            </Frame>
+                <StackLayout Orientation="Vertical"
+                        HorizontalOptions="FillAndExpand"
+                        BindableLayout.ItemsSource="{Binding Accounts}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Frame HasShadow="False">
+                                <StackLayout Orientation="Vertical" Spacing="0">
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                        <Label Text="Account Type: " />
+                                        <Label Text="{Binding AccountType}" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                        <Label Text="Balance: " />
+                                        <Label Text="{Binding Balance}" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+                <Frame HasShadow="False" Padding="15,15,15,15">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.ColumnSpan="2" Text="Request A Loan: " />
+                        <Label Grid.Row="1" Grid.Column="0" Text="Loan Amount: " />
+                        <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Loan.Value.Amount, Mode=TwoWay}" Placeholder="Enter Loan Amount" Keyboard="Numeric" HeightRequest="60" />
+                        <Label Grid.Row="2" Grid.Column="0" Text="Loan Duration (yrs): " />
+                        <Picker Grid.Row="2" Grid.Column="1" ItemsSource="{Binding DurationList}" SelectedItem="{Binding Loan.Value.Duration, Mode=TwoWay}"></Picker>
+                        <Button Grid.Row="3" Grid.Column="0" Text="Calculate Interest" Style="{StaticResource ButtonStyle}" Command="{Binding CalculateInterestCommand}"></Button>
+                        <Entry Grid.Row="3" Grid.Column="1" Text="{Binding Loan.Value.Interest, Mode=OneWay}" Placeholder="Interest" HeightRequest="60" IsEnabled="False" />
+                        <Button Grid.Row="4" Grid.Column="1" Text="Apply" Style="{StaticResource ButtonStyle}" Command="{Binding ApplyCommand}"></Button>
+                    </Grid>
+                </Frame>
+                <Frame HasShadow="False" Padding="15,15,15,15">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.ColumnSpan="2" Text="Transfer Money: " />
+                        <Label Grid.Row="1" Grid.Column="0" Text="From Account: " />
+                        <Picker Grid.Row="1" Grid.Column="1" />
+                        <Label Grid.Row="2" Grid.Column="0" Text="To Account: " />
+                        <Picker Grid.Row="2" Grid.Column="1"></Picker>
+                        <Button Grid.Row="3" Grid.Column="1" Text="Transfer" Style="{StaticResource ButtonStyle}"></Button>
+                    </Grid>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
+
