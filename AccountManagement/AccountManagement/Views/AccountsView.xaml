@@ -65,6 +65,9 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
@@ -73,10 +76,18 @@
 
                         <Label Grid.Row="0" Grid.ColumnSpan="2" Text="Transfer Money: " />
                         <Label Grid.Row="1" Grid.Column="0" Text="From Account: " />
-                        <Picker Grid.Row="1" Grid.Column="1" />
-                        <Label Grid.Row="2" Grid.Column="0" Text="To Account: " />
-                        <Picker Grid.Row="2" Grid.Column="1"></Picker>
-                        <Button Grid.Row="3" Grid.Column="1" Text="Transfer" Style="{StaticResource ButtonStyle}"></Button>
+                        <Picker Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Accounts}" SelectedItem="{Binding MoneyTransferViewModel.Value.FromAccount, Mode=TwoWay}"
+                                ItemDisplayBinding="{Binding AccountType}"/>
+                        <Label Grid.Row="2" Grid.Column="0" Text="From Balance: " />
+                        <Entry Grid.Row="2" Grid.Column="1" Text="{Binding MoneyTransferViewModel.Value.FromAccount.Balance, Mode=OneWay}" Placeholder="From Balance" HeightRequest="60" IsEnabled="False" />
+                        <Label Grid.Row="3" Grid.Column="0" Text="To Account: " />
+                        <Picker Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Accounts}" SelectedItem="{Binding MoneyTransferViewModel.Value.ToAccount, Mode=TwoWay}"
+                                ItemDisplayBinding="{Binding AccountType}"></Picker>
+                        <Label Grid.Row="4" Grid.Column="0" Text="To Balance: " />
+                        <Entry Grid.Row="4" Grid.Column="1" Text="{Binding MoneyTransferViewModel.Value.ToAccount.Balance, Mode=OneWay}" Placeholder="To Balance" HeightRequest="60" IsEnabled="False" />
+                        <Label Grid.Row="5" Grid.Column="0" Text="Transfer Amount: " />
+                        <Entry Grid.Row="5" Grid.Column="1" Text="{Binding MoneyTransferViewModel.Value.AmountToTransfer, Mode=TwoWay}" Placeholder="Enter Transfer Amount" Keyboard="Numeric" HeightRequest="60" />
+                        <Button Grid.Row="6" Grid.Column="1" Text="Transfer" Style="{StaticResource ButtonStyle}" Command="{Binding TransferCommand}"></Button>
                     </Grid>
                 </Frame>
             </StackLayout>

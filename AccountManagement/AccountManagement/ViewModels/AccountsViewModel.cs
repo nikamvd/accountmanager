@@ -32,8 +32,12 @@ namespace AccountManagement.ViewModels
             _accountsService = accountsService ?? DependencyService.Get<IAccountsService>();
             User = user;
             Accounts = new ObservableCollection<Account>(_accountsService.GetAccounts(User));
+
             Loan = new ValidatableObject<Loan>() { Value = new Loan() { Duration = 1 } };
-            AddValidations();
+            AddLoanValidations();
+
+            MoneyTransferViewModel = new ValidatableObject<MoneyTransferViewModel>() { Value = new MoneyTransferViewModel() };
+            AddTransferValidations();
         }
 
         public User User
@@ -77,7 +81,9 @@ namespace AccountManagement.ViewModels
             }
         }
 
-        private void AddValidations()
+        #region LoanApplication
+
+        private void AddLoanValidations()
         {
             _loan.Validations.Add(new IsValidAmountRule { ValidationMessage = "Please enter loan amount upto 10,000." });
             _loan.Validations.Add(new IsLoanAllowedRule(User.CreditRating) { ValidationMessage = $"{User.UserName}'s creadit rating is less than 20. Loan request not allowed." });
@@ -126,6 +132,54 @@ namespace AccountManagement.ViewModels
                 await DialogService.ShowAlertAsync(Loan.Errors.FirstOrDefault(), "Loan Error", "OK");
             }
         }
+
+        #endregion LoanApplication
+
+        #region MoneyTransfer
+
+        private void AddTransferValidations()
+        {
+            _moneyTransferViewModel.Validations.Add(new AreAccountsSelectedRule { ValidationMessage = "Please select From and To Accounts both." });
+            _moneyTransferViewModel.Validations.Add(new AreToAndFromDifferentRule { ValidationMessage = "To and From Accounts should be different." });
+            _moneyTransferViewModel.Validations.Add(new TransferAmountSpecifiedRule { ValidationMessage = "Please enter amount to transfer." });
+            _moneyTransferViewModel.Validations.Add(new IsEnoughBalanceRule { ValidationMessage = "From Account doesn't have sufficient balance." });
+        }
+
+        private ValidatableObject<MoneyTransferViewModel> _moneyTransferViewModel;
+        public ValidatableObject<MoneyTransferViewModel> MoneyTransferViewModel
+        {
+            get => _moneyTransferViewModel;
+            set
+            {
+                _moneyTransferViewModel = value;
+                RaisePropertyChanged(() => MoneyTransferViewModel);
+            }
+        }
+
+        public ICommand TransferCommand => new Command(async () => await TransferAsync());
+        private async Task TransferAsync()
+        {
+            if (MoneyTransferViewModel.Validate())
+            {
+                var fromAccount = Accounts.Where(account => account.AccountId == MoneyTransferViewModel.Value.FromAccount.AccountId).FirstOrDefault();
+                var toAccount = Accounts.Where(account => account.AccountId == MoneyTransferViewModel.Value.ToAccount.AccountId).FirstOrDefault();
+
+                if(fromAccount != null && toAccount != null)
+                {
+                    fromAccount.Balance -= MoneyTransferViewModel.Value.AmountToTransfer;
+                    toAccount.Balance += MoneyTransferViewModel.Value.AmountToTransfer;
+                    RaisePropertyChanged(() => MoneyTransferViewModel.Value.FromAccount.Balance);
+                    RaisePropertyChanged(() => MoneyTransferViewModel.Value.ToAccount.Balance);
+                }
+            }
+            else
+            {
+                await DialogService.ShowAlertAsync(MoneyTransferViewModel.Errors.FirstOrDefault(), "Transfer Error", "OK");
+            }
+        }
+
+        #endregion MoneyTransfer
+
     }
 }
 

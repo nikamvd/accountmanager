@@ -8,18 +8,30 @@ namespace AccountManagement.Models
 		Loan
 	}
 
-	public class Account
-	{
+	public class Account : ViewModels.Base.ExtendedBindableObject
+    {
 		public Account(string userId, AccountType accountType, double balance)
 		{
-			UserId = userId;
+            AccountId = Guid.NewGuid().ToString("N");
+            UserId = userId;
 			AccountType = accountType;
 			Balance = balance;
         }
 
+        public string AccountId { get; }
         public string UserId { get; }
 		public AccountType AccountType { get; }
-        public double Balance { get; set; }
+
+        private double _balance;
+        public double Balance
+        {
+            get => _balance;
+            set
+            {
+                _balance = value;
+                RaisePropertyChanged(() => Balance);
+            }
+        }
     }
 }
 
