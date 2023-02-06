@@ -8,7 +8,7 @@ namespace AccountManagement.Services.Navigation
     public interface INavigationService
     {
         Task PushAsync(Page page);
-        void PushAsRoot(Page page);
+        Task<bool> PushAsRoot(Page page);
     }
 }
 

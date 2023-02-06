@@ -15,7 +15,7 @@ using AccountManagement.Services.Loan;
 
 namespace AccountManagement.ViewModels
 {
-    public class MoneyTransferViewModel : ViewModelBase
+    public class MoneyTransferViewModel : ExtendedBindableObject
     {
         private Account _fromAccount;
         private Account _toAccount;

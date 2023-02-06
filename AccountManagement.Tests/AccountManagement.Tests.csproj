@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,15 +21,21 @@
     </PackageReference>
     <PackageReference Include="xunit.abstractions" Version="2.0.3" />
     <PackageReference Include="Xamarin.Forms.Mocks" Version="4.7.0.1" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
+    <PackageReference Include="Moq" Version="4.14.5" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="xunit.abstractions" />
     <None Remove="Validations\" />
     <None Remove="Xamarin.Forms.Mocks" />
+    <None Remove="ViewModels\" />
+    <None Remove="Moq" />
+    <None Remove="Xamarin.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Validations\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccountManagement\AccountManagement\AccountManagement.csproj" />

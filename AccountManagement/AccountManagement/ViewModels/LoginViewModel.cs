@@ -17,13 +17,16 @@ namespace AccountManagement.ViewModels
     {
         private ValidatableObject<string> _userName;
         private readonly IUserService _userService;
+        private readonly IAccountsService _accountsService;
 
         public LoginViewModel(IUserService userService = null,
+            IAccountsService accountsService = null,
             IDialogService dialogService = null,
             INavigationService navigationService = null)
             : base(dialogService, navigationService)
         {
             _userService = userService ?? DependencyService.Get<IUserService>();
+            _accountsService = accountsService ?? DependencyService.Get<IAccountsService>();
             _userName = new ValidatableObject<string>();
             AddValidations();
         }
@@ -44,11 +47,13 @@ namespace AccountManagement.ViewModels
             if(UserName.Validate())
             {
                 var user = _userService.GetUser(UserName.Value);
+                var accountsViewModel = new AccountsViewModel(user, _accountsService,
+                    DialogService, NavigationService);
                 var accountsView = new AccountsView()
                 {
-                    BindingContext = new AccountsViewModel(user)
+                    BindingContext = accountsViewModel
                 };
-                NavigationService.PushAsRoot(accountsView);
+                await NavigationService.PushAsRoot(accountsView);
             }
             else
             {
@@ -59,7 +64,7 @@ namespace AccountManagement.ViewModels
         private void AddValidations()
         {
             _userName.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "A username is required." });
-            _userName.Validations.Add(new IsValidUserRule { ValidationMessage = "Invalid username entered." });
+            _userName.Validations.Add(new IsValidUserRule(_userService) { ValidationMessage = "Invalid username entered." });
         }
     }
 }

@@ -189,7 +189,7 @@ namespace AccountManagement.ViewModels
             {
                 BindingContext = new LoginViewModel()
             };
-            NavigationService.PushAsRoot(loginView);
+            await NavigationService.PushAsRoot(loginView);
         }
 
         #endregion Logout

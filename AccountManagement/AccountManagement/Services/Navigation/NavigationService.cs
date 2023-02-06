@@ -14,10 +14,11 @@ namespace AccountManagement.Services.Navigation
             await App.Current.MainPage.Navigation.PushAsync(page);
         }
 
-        public void PushAsRoot(Page page)
+        public Task<bool> PushAsRoot(Page page)
         {
             var navigationPage = new NavigationPage(page);
             App.Current.MainPage = navigationPage;
+            return Task.FromResult(true);
         }
     }
 }
